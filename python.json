@@ -1,0 +1,350 @@
+{
+	// Place your snippets for python here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+	"Class Weak": {
+		"prefix": "class_weak",
+		"body": [
+			"# $1",
+			"class $1(models.Model):",
+			"\t_name=\"$2.$3.$1\"",
+    		"\t_description=\"$1\"",
+			"\t$3_id = fields.Many2one(\"$2.$3\", string=\"$3 Id\")",
+    		"\tname=fields.Char(\"\")"
+		]
+	},
+	"Class Inherited":{
+		"prefix": "class_inherit",
+		"body": [
+			"class jmd_$1(models.Model):",
+			"\t_inherit=\"$2.$1\"",
+		]
+	},
+	"Flectra RPC":{
+		"prefix": "xmlrpc_client",
+		"body": [
+			"flectra = odoorpc.ODOO('$1', port=$2)",
+        	"fectra.login('$3', '$4', '$5')",
+		],
+		"description": "odorpc Connector"
+	},
+	"Track Onchange":{
+		"prefix": "track_onchange",
+		"body": "track_visibiity=\"onchange\""
+	},
+	"Class New":{
+		"prefix": "class_new",
+		"body": [
+			"class $2(models.Model):",
+				"\t_name=\"$1.$2\"",
+    			"\t_inherit=\"mail.thread\"",
+    			"\t_description=\"$3\"",
+    			"\tname=fields.Char(\"$4\")"
+		]
+	},
+	"Logger":{
+		"prefix": "logger",
+		"body": [
+			"import logging",
+			"_logger = logging.getLogger(__name__)"
+		]
+	},
+	"Sequence": {
+		"prefix": "sequence",
+		"body": "default=lambda self: self.env[\"ir.sequence\"].get(\"$1\")"
+	},
+	"Copy": {
+		"prefix": "override_copy",
+		"body": [
+			"@api.one",
+			"@api.returns('self', lambda value: value.id)",
+			"def copy(self, default=None):",
+				"\tdefault = dict(default or {})",
+				"\tdefault.update({'$1': '$2'})",
+				"\treturn super($3, self).copy(default)",
+		]
+	},
+	"Ternary": {
+		"prefix": "ternary_check",
+		"body": [
+			"$1 = $2 if $2 else ''"
+		]
+	},
+	"Create": {
+		"prefix": "override_create",
+		"body": [
+			"@api.model",
+			"def create(self, vals):",
+				"\trec = super($1, self).create(vals)",
+				"\treturn rec"
+		]
+	},
+	"Write": {
+		"prefix": "override_write",
+		"body": [
+			"@api.model",
+			"def write(self, vals):",
+				"\trec = super($1, self).create(vals)",
+				"\treturn rec"
+		]
+	},
+	"Mail Function": {
+		"prefix": "mail_function",
+		"body": [
+			"@api.multi",
+			"def mailmessage(self, template_name):",
+				"mail_obj = self.env['mail.template']",
+				"for i in mail_obj.search([('name','=',template_name)]):",
+					"i.send_mail(self.id)",
+				"return"
+		],
+	},
+	"User Has Group":{
+		"prefix": "has_group",
+		"body": [
+			"if self.env.user.has_group('$1'):",
+			"\t"
+		]
+	},
+	"Flectra File": {
+		"prefix": "flectra_file",
+		"body": [
+			"# -*- coding: utf-8 -*-",
+			"from flectra import models, fields, api, exceptions"
+		]
+	},
+	"Flectra Binary Field": {
+		"prefix": "flectra_binary",
+		"body": [
+			"$0 = fields.Binary(\"$1\")",
+			"n$0 = fields.Char(\"Nombre de $1\")"
+		]
+	},
+	"Flectra Selection Field":{
+		"prefix": "felctra_selection",
+		 "body": "$0 = fields.Selection([(\"$1\", \"$1\")], name=\"$0 $2\")"
+	},
+	"Manifest": {
+		"prefix": "manifest",
+		"body": [
+			"# -*- coding: utf-8",
+			"{",
+			"'name': '$1'",
+			"'version': '$2'",
+			"'author': 'José Manuel Martinez'",
+			"'category': 'Customization'",
+			"'description': \"\"\"",
+			"$3",
+			"\"\"\"",
+			"'website': '$4'",
+			"'license': 'AGPL-3'",
+			"'depends': [",
+			"'base',",
+			"'mail',",
+    	"],",
+		"'installable': True,",
+		"'active': False,",
+		"}",
+		]
+	},
+	"Flectra Select Tuple": {
+		"prefix": "tu",
+		"body": "('$1','$1')$2"
+	},
+	"Vega Delete": {
+		"prefix": "vg-delete",
+		"body": [
+			"import odoorpc",
+			"odoo = odoorpc.ODOO('$1', port='$2')",
+			"odoo.login('$3', '$4', '$5)",
+			"user = odoo.env.user",
+			"print(user.name)",
+			"$6_class = odoo.env['hs.condomino']",
+			"for i in condomino_class.search([$7]):",
+				"$6 = $6_class.browse(i)",
+				"try:",
+					"print($6.name)",
+				"except(Exception):",
+					"print('No imprimible')",
+					"$6_class.unlink(i)",
+		]
+	},
+	"Vega Char Field":{
+		"prefix": "vg-char",
+		"body": [
+			"$1 = origin_object['$1'] if origin_object['$1'] else ''"
+		]
+	},
+	"Vega Date Field":{
+		"prefix": "vg-date",
+		"body": [
+			"$1 = origin_object['$1'] if origin_object['$1'] else ''",
+			"if($1):",
+			"\t $1 = $1.strftime('%Y-%m-%d')"
+		]
+	},
+	"Vega Many2one":{
+		"prefix": "vg-many2one",
+		"body": [
+			"$1_class = nuevo.env['$2']",
+			"$1 = origin_object['$1'] if origin_object['$1'] else ''",
+			"$1_name = origin_object['$1'].name",
+			"for item in $1_class.search([('name', '=', $1_name)]):",
+        	"\t$1 = item"
+		]
+	},
+	"Vega Simple Copy":{
+		"prefix": "vg-simple-copy",
+		"body": [
+			"import odoorpc",
+			"",
+			"inicial = 0",
+			"final = 10000",
+			"contador = 0",
+			"odoo = odoorpc.ODOO('$2', port='$2')",
+			"odoo.login('$3', '$4', '$5')",
+			"nuevo = odoorpc.ODOO('$6', port='$7')",
+			"nuevo.login('$8', '$9', '$10')",
+			"user = odoo.env.user",
+			"print(user.name)",
+			"user = nuevo.env.user",
+			"print(user.name)",
+			"origin_class = odoo.env['$11']",
+			"dest_class = nuevo.env['$11']",
+			"for i in origin_class.search([]):",
+    			"\tif contador < inicial:",
+        		"\t\tcontador += 1",
+        		"\t\tcontinue",
+    		"elif contador > final:",
+        		"\tbreak",
+    		"contador += 1",
+    		"print(str(contador))",
+    		"origin_object = origin_class.browse(i)",
+    		"print(origin_object['name'])",
+    		"name = origin_object['name'] if origin_object['name'] else ''",
+    		"dest_class.create({",
+        	"\t'name': name,",
+    		"})",
+    		"print('Creado {}'.format(name))"
+		]
+	},
+	"Django urls":{
+		"prefix": "django-urls-file",
+		"body": [
+			"from django.urls import path",
+			"from . import views",
+			"from django.conf.urls import url",
+			"",
+			"app_name = '$1'",
+			"urlpatterns = [",
+			"$2",
+			"]"
+
+		]
+	},
+	"Django Template View":{
+		"prefix": "django-view-template",
+		"body": [
+			"class $1(TemplateView):",
+    		"\ttemplate_name = '$2'",
+    		"\tdef get_context_data(self, **kwargs):",
+        	"\t\tcontext = super().get_context_data(**kwargs)",
+        	"\t\tcontext['$3'] = $4",
+        	"\t\treturn context"
+			]
+	},
+	"Django Icons":{
+		"prefix": "django-icons",
+		"body": [
+			"DJANGO_ICONS = {",
+				"\t\"ICONS\": {",
+					"\t\t\"edit\": {\"name\": \"far fa-pencil\"},",
+					"\t\t\"create\": {\"name\": \"far fa-plus\"},",
+					"\t\t\"delete\": {\"name\": \"far fa-trash\"}",
+					"\t\t\"goto\": {\"name\": \"far fa-external-link\"}",
+					"\t\t\"read\": {\"name\": \"far da-info-circle\"}",
+				"},",
+			"}",
+		]
+	},
+	"Django Model":{
+		"prefix": "django-model",
+		"body": [
+			"class $1(models.Model):",
+			"\tname = models.CharField(\"$2\", max_length=140)",
+			"$5",
+			"\tdef __str__(self):",
+			"\t\treturn self.name",
+			"",
+    		"\tdef get_absolute_url(self):",
+        	"\t\treturn reverse('$3:$4-list')",
+		]
+	},
+	"Django Paths":{
+		"prefix": "django-url-model",
+		"body": [
+			"path('$1-detail/<int:pk>', views.$2Detail.as_view(), name=\"$1-detail\"),",
+    		"path('$1-create', views.$2Create.as_view(), name=\"$1-create\"),",
+    		"path('$1-delete/<int:pk>', views.$2Delete.as_view(), name=\"$1-delete\"),",
+    		"path('$1-list', views.$2List.as_view(), name=\"$1-list\"),",
+    		"path('$1-update/<int:pk>', views.$2Update.as_view(), name=\"$1-update\"),",
+		]
+	},
+	"Django CRUD":{
+		"prefix": "django-crud-views",
+		"body": [
+			"#$1",
+			"class $1Detail(DetailView):",
+			"\tmodel = models.$1",
+			"",
+			"class $1List(ListView):",
+    		"\tmodel = models.$1",
+			"",
+			"class $1Create(CreateView):",
+    		"\tmodel = models.$1",
+    		"\tfields = '__all__'$4",
+			"",
+			"class $1Delete(DeleteView):",
+			"\tmodel = models.$1",
+			"\tsuccess_url = reverse_lazy(\"$2:$3-list\")",
+			"",
+			"class $1Update(UpdateView):",
+			"\tmodel = models.$1",
+    		"fields = '__all__'"
+		]
+	},
+	"Django CharField":{
+		"prefix": "df-char",
+		"body": "$1 = models.CharField(\"$2\", max_length=$3)"
+	},
+	"Django SelectField":{
+		"prefix": "df-select",
+		"body": "$1 = models.CharField(\"$2\", max_length=$3, choices=[('$4','$4'), ('$5','$5')])"
+	},
+	"Django BooleanField":{
+		"prefix": "df-boolean",
+		"body": "$1 = models.BooleanField(\"$2\")"
+	},
+	"Django DateTimeField": {
+		"prefix": "df-datetime",
+		"body": "$1 = models.DateTimeField(\"$2\", auto_now=False)"
+	},
+	"Django DateField": {
+		"prefix": "df-date",
+		"body": "$1 = models.DateField(\"$2\", auto_now=False)"
+	},
+	"Django FKField": {
+		"prefix": "df-foreign",
+		"body": "$1 = models.ForeignKey(\"$2\",on_delete=models.DO_NOTHING, default=None, name=\"$3\")"
+	}
+}
