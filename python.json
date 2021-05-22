@@ -327,17 +327,25 @@
 		"prefix": "df-char",
 		"body": "$1 = models.CharField(\"$2\", max_length=$3)"
 	},
+	"Django IntegerField":{
+		"prefix": "df-integer",
+		"body": "$1 = models.IntegerField(\"$2\")"
+	},
 	"Django SelectField":{
 		"prefix": "df-select",
 		"body": "$1 = models.CharField(\"$2\", max_length=$3, choices=[('$4','$4'), ('$5','$5')])"
 	},
 	"Django BooleanField":{
 		"prefix": "df-boolean",
-		"body": "$1 = models.BooleanField(\"$2\")"
+		"body": "$1 = models.BooleanField(\"$2\", default=False)"
 	},
 	"Django DateTimeField": {
 		"prefix": "df-datetime",
 		"body": "$1 = models.DateTimeField(\"$2\", auto_now=False)"
+	},
+	"Django TimeField": {
+		"prefix": "df-time",
+		"body": "$1 = models.TimeField(\"$2\", auto_now=False)"
 	},
 	"Django DateField": {
 		"prefix": "df-date",
@@ -346,5 +354,52 @@
 	"Django FKField": {
 		"prefix": "df-foreign",
 		"body": "$1 = models.ForeignKey(\"$2\",on_delete=models.DO_NOTHING, default=None, name=\"$3\")"
+	},
+	"Django Form":{
+		"prefix": "django-form",
+		"body": [
+			"class $1Form(forms.ModelForm):",
+    		"\tclass Meta:",
+        	"\t\tmodel = $1",
+        	"\t\tfields = [$2]",
+        	"\t\twidgets = {$3}",
+		]
+	},
+	"Django View Add Weak to Strong":{
+		"prefix": "django-view-add-to-strong",
+		"body": [
+			"def add$1(request, pk):",
+    		"\tstrong = get_object_or_404(models.$2, pk=pk)",
+    		"\tif request.method == \"POST\":",
+        	"\t\tform = forms.$1Form(request.POST)",
+        	"\t\tif form.is_valid():",
+            "\t\t\tweak = form.save(commit=False)",
+            "\t\t\tweak.$3 = strong",
+            "\t\t\tstrong.has_$4 = True",
+            "\t\t\tstrong.save()",
+            "\t\t\tweak.save()",
+            "\t\t\treturn redirect('$5', pk=pk)",
+    		"\telse:",
+        	"\t\tform = forms.$1Form()",
+        	"\t\treturn render(request, '%6/form.html', {'form': form, 'title': \"$1\"})",
+		]
+	},
+	"Polaris save method":{
+		"prefix": "pl-save",
+		"body": [
+			"def save(self, *args, **kwargs):",
+        	"\t\tsuper($1, self).save(args, kwargs)",
+        	"\t\tconn = antares_connect.antares()",
+        	"\t\tantares = conn.getConnection()",
+        	"\t\tif self.antares_id == 0:",
+            "\t\t\tantares.env['$2'].create({",
+        	"\t\t\t\t'name': self.name",
+            "\t\t\t})",
+        	"\t\telse:",
+            "\t\t\tfor i in antares.env['res.partner'].search([('id', '=', self.antares_id)]):",
+            "\t\t\t\ti.write({",
+            "\t\t\t\t\t'name': self.name",
+            "\t\t\t})"
+		]
 	}
 }

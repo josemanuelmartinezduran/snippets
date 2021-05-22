@@ -1,0 +1,43 @@
+{
+	// Place your snippets for java here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+	"Betelgeuse Model":{
+		"prefix": "bg-model",
+		"body": [
+			"import javax.persistence.*;",
+			"",
+			"@Entity",
+			"@Table(name=\"$1\")",
+			"public class $2Model {",
+			"\t@Id",
+    		"\t@GeneratedValue(strategy = GenerationType.IDENTITY)",
+    		"\t@Column(unique = true, nullable = false)",
+			"\tprivate int id;",
+			"}"
+		]
+	},
+	"Betelgeuse Database":{
+		"prefix": "bg-database",
+		"body": [
+			"spring.datasource.url=jdbc:postgresql://localhost:5432/$1",
+			"spring.datasource.username= postgres",
+			"spring.datasource.password=admin",
+			"spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect",
+			"",
+			"# Hibernate ddl auto (create, create-drop, validate, update)",
+			"spring.jpa.hibernate.ddl-auto = update",
+		]
+	}
+}
+    

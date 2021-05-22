@@ -136,5 +136,13 @@
 			"<div class='text-center h1 text-dark'> $1 </div>",
   			"<div class='text-center h5 text-secondary'>$2</div>"
 		]
+	},
+	"Rigel App Component": {
+		"prefix": "rg-app-component",
+		"body": [
+			"<app-header></app-header>",
+			"<router-outlet></router-outlet>",
+			"<app-footer></app-footer>"
+		]
 	}
 }
